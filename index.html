@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JobTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">Job<span>Track</span></div>
+    <p>Track all your job applications in one place</p>
+  </header>
+
+  <main class="container">
+    <section class="stats" id="stats"></section>
+
+    <form id="add-form">
+      <input id="job-title" placeholder="Job title" required>
+      <input id="company" placeholder="Company" required>
+      <input type="date" id="job-date">
+      <button type="submit">+ Add application</button>
+    </form>
+
+    <section class="board">
+      <div class="column" data-status="applied">
+        <h2>Applied <span class="count"></span></h2>
+        <div class="cards"></div>
+      </div>
+      <div class="column" data-status="interview">
+        <h2>Interview <span class="count"></span></h2>
+        <div class="cards"></div>
+      </div>
+      <div class="column" data-status="offer">
+        <h2>Offer <span class="count"></span></h2>
+        <div class="cards"></div>
+      </div>
+      <div class="column" data-status="rejected">
+        <h2>Rejected <span class="count"></span></h2>
+        <div class="cards"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
