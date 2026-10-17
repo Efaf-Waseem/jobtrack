@@ -145,3 +145,16 @@ body {
   padding: 8px;
   margin-bottom: 10px;
 }
+.search {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+  background: white;
+  margin-bottom: 16px;
+}
+.search:focus {
+  outline: 2px solid #2563eb;
+  border-color: transparent;
+}

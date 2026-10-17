@@ -34,7 +34,6 @@ app.get("/api/jobs", async (req, res) => {
 });
 
 app.post("/api/jobs", async (req, res) => {
-  console.log("Received:", req.body);
   const job = await Job.create(req.body);
   res.json(job);
 });

@@ -2,15 +2,28 @@ const API = "http://localhost:5000/api/jobs";
 const statuses = ["applied", "interview", "offer", "rejected"];
 const form = document.getElementById("add-form");
 const stats = document.getElementById("stats");
+const searchBox = document.getElementById("search");
+let allJobs = [];
 
 async function loadJobs() {
   try {
     const res = await fetch(API);
-    const jobs = await res.json();
-    render(jobs);
+    allJobs = await res.json();
+    applyFilter();
   } catch (err) {
     stats.textContent = "Cannot connect to the server. Is it running?";
   }
+}
+
+function applyFilter() {
+  const q = searchBox.value.trim().toLowerCase();
+  const shown = allJobs.filter(function (j) {
+    return (
+      (j.title || "").toLowerCase().includes(q) ||
+      (j.company || "").toLowerCase().includes(q)
+    );
+  });
+  render(shown);
 }
 
 function makeCard(job) {
@@ -68,8 +81,6 @@ function makeCard(job) {
 }
 
 function render(jobs) {
-  const counts = {};
-
   statuses.forEach(function (status) {
     const col = document.querySelector('.column[data-status="' + status + '"]');
     const box = col.querySelector(".cards");
@@ -77,7 +88,6 @@ function render(jobs) {
       return j.status === status;
     });
 
-    counts[status] = items.length;
     col.querySelector(".count").textContent = items.length;
     box.innerHTML = "";
 
@@ -89,13 +99,21 @@ function render(jobs) {
     });
   });
 
+  function count(s) {
+    return allJobs.filter(function (j) {
+      return j.status === s;
+    }).length;
+  }
+
   stats.innerHTML = `
-    <div class="stat"><strong>${jobs.length}</strong><span>Total applications</span></div>
-    <div class="stat interview"><strong>${counts.interview}</strong><span>Interviews</span></div>
-    <div class="stat offer"><strong>${counts.offer}</strong><span>Offers</span></div>
-    <div class="stat rejected"><strong>${counts.rejected}</strong><span>Rejected</span></div>
+    <div class="stat"><strong>${allJobs.length}</strong><span>Total applications</span></div>
+    <div class="stat interview"><strong>${count("interview")}</strong><span>Interviews</span></div>
+    <div class="stat offer"><strong>${count("offer")}</strong><span>Offers</span></div>
+    <div class="stat rejected"><strong>${count("rejected")}</strong><span>Rejected</span></div>
   `;
 }
+
+searchBox.addEventListener("input", applyFilter);
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
