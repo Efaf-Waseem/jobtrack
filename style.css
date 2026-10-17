@@ -129,3 +129,19 @@ body {
 .card .actions button:hover { filter: brightness(0.95); }
 
 .empty { color: #94a3b8; font-size: 14px; text-align: center; padding: 14px 0; }
+.card .link {
+  display: inline-block;
+  font-size: 13px;
+  color: #2563eb;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+.card .link:hover { text-decoration: underline; }
+.card .notes {
+  font-size: 13px;
+  color: #475569;
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 10px;
+}

@@ -20,6 +20,8 @@ function makeCard(job) {
     <h3></h3>
     <p></p>
     <span class="date"></span>
+    <a class="link" target="_blank" rel="noopener">View job posting</a>
+    <div class="notes"></div>
     <div class="actions">
       <button class="move">Move →</button>
       <button class="delete">Delete</button>
@@ -28,6 +30,24 @@ function makeCard(job) {
   card.querySelector("h3").textContent = job.title;
   card.querySelector("p").textContent = job.company;
   card.querySelector(".date").textContent = "Applied: " + job.date;
+
+  const linkEl = card.querySelector(".link");
+  let url = (job.link || "").replace(/\s+/g, "");
+  if (url && !/^https?:\/\//i.test(url)) {
+    url = "https://" + url;
+  }
+  if (url) {
+    linkEl.href = url;
+  } else {
+    linkEl.remove();
+  }
+
+  const notesEl = card.querySelector(".notes");
+  if (job.notes) {
+    notesEl.textContent = job.notes;
+  } else {
+    notesEl.remove();
+  }
 
   card.querySelector(".move").addEventListener("click", async function () {
     const next = statuses[(statuses.indexOf(job.status) + 1) % statuses.length];
@@ -94,6 +114,8 @@ form.addEventListener("submit", async function (e) {
       title: document.getElementById("job-title").value,
       company: document.getElementById("company").value,
       date: date,
+      link: document.getElementById("job-link").value,
+      notes: document.getElementById("job-notes").value,
       status: "applied",
     }),
   });
