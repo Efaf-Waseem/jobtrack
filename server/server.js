@@ -17,6 +17,8 @@ const jobSchema = new mongoose.Schema({
   title: String,
   company: String,
   date: String,
+  link: String,
+  notes: String,
   status: { type: String, default: "applied" },
 });
 
@@ -32,6 +34,7 @@ app.get("/api/jobs", async (req, res) => {
 });
 
 app.post("/api/jobs", async (req, res) => {
+  console.log("Received:", req.body);
   const job = await Job.create(req.body);
   res.json(job);
 });
