@@ -19,6 +19,7 @@ const jobSchema = new mongoose.Schema({
   date: String,
   link: String,
   notes: String,
+  followUp: String,
   status: { type: String, default: "applied" },
 });
 
