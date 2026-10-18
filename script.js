@@ -37,6 +37,7 @@ function makeCard(job) {
     <div class="notes"></div>
     <div class="actions">
       <button class="move">Move →</button>
+      <button class="edit">Edit</button>
       <button class="delete">Delete</button>
     </div>
   `;
@@ -72,6 +73,45 @@ function makeCard(job) {
     loadJobs();
   });
 
+  card.querySelector(".edit").addEventListener("click", function () {
+    card.innerHTML = `
+      <input class="e-title" placeholder="Job title">
+      <input class="e-company" placeholder="Company">
+      <input class="e-link" placeholder="Job link">
+      <textarea class="e-notes" placeholder="Notes"></textarea>
+      <div class="actions">
+        <button class="save">Save</button>
+        <button class="cancel">Cancel</button>
+      </div>
+    `;
+    card.querySelector(".e-title").value = job.title || "";
+    card.querySelector(".e-company").value = job.company || "";
+    card.querySelector(".e-link").value = job.link || "";
+    card.querySelector(".e-notes").value = job.notes || "";
+
+    card.querySelector(".save").addEventListener("click", async function () {
+      const title = card.querySelector(".e-title").value.trim();
+      const company = card.querySelector(".e-company").value.trim();
+      if (!title || !company) {
+        alert("Job title and company cannot be empty.");
+        return;
+      }
+      await fetch(API + "/" + job._id, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: title,
+          company: company,
+          link: card.querySelector(".e-link").value,
+          notes: card.querySelector(".e-notes").value,
+        }),
+      });
+      loadJobs();
+    });
+
+    card.querySelector(".cancel").addEventListener("click", loadJobs);
+  });
+
   card.querySelector(".delete").addEventListener("click", async function () {
     await fetch(API + "/" + job._id, { method: "DELETE" });
     loadJobs();
@@ -79,7 +119,6 @@ function makeCard(job) {
 
   return card;
 }
-
 function render(jobs) {
   statuses.forEach(function (status) {
     const col = document.querySelector('.column[data-status="' + status + '"]');

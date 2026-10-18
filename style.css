@@ -158,3 +158,35 @@ body {
   outline: 2px solid #2563eb;
   border-color: transparent;
 }
+.card input,
+.card textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 8px;
+}
+.card textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+.card .edit,
+.card .cancel {
+  background: #f1f5f9;
+  color: #334155;
+}
+.card .save {
+  background: #dcfce7;
+  color: #15803d;
+}
+.card .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.card .actions button {
+  margin-right: 0;
+  padding: 6px 10px;
+}
