@@ -3,6 +3,7 @@ const statuses = ["applied", "interview", "offer", "rejected"];
 const form = document.getElementById("add-form");
 const stats = document.getElementById("stats");
 const searchBox = document.getElementById("search");
+const sortBox = document.getElementById("sort");
 let allJobs = [];
 
 function followUpState(job) {
@@ -34,6 +35,16 @@ function applyFilter() {
       (j.company || "").toLowerCase().includes(q)
     );
   });
+
+  const mode = sortBox.value;
+  shown.sort(function (a, b) {
+    if (mode === "company") {
+      return (a.company || "").localeCompare(b.company || "");
+    }
+    if (mode === "oldest") return a._id.localeCompare(b._id);
+    return b._id.localeCompare(a._id);
+  });
+
   render(shown);
 }
 
@@ -197,6 +208,7 @@ function render(jobs) {
 }
 
 searchBox.addEventListener("input", applyFilter);
+sortBox.addEventListener("change", applyFilter);
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
